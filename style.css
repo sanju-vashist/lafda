@@ -190,3 +190,98 @@ footer li{
 
 
 
+
+
+/* body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(115deg, #e28743 10%, #1587b9 90%);
+}  */
+
+.contact-form-container {
+    width: 40%;
+    height: 40%;
+    background: transparent; /* Ensures the form background is transparent */
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for inputs */
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00d689;
+    color: #fff;
+    cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .contact-form-container {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 100%;
+    /* position: relative;
+    z-index: 1; */
+}
+
+.card {
+    width: 20%;
+    height: 20%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 10px;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+@media (max-width: 700px) {
+    .contact-form-container {
+        width: 80%;
+        height: 80%;
+    }
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 80%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+}
+
+
+
