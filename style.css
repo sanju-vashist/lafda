@@ -244,10 +244,10 @@ footer li{
 .card {
     width: 20%;
     height: 20%;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(225, 213, 213);
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(29, 21, 21, 0.1);
     text-align: center;
     margin: 0 10px;
 }
