@@ -24,10 +24,10 @@
             <section>
                 <div class="content">
                     <h1>Problem<br></h1>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem, exercitationem ratione?</p>
-                    <h1><br>Reality</h1>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, asperiores distinctio. </p>
-                    <button>Downlode</button>
+                    <p>People are introvrt unable to xepress or shy and afraid. How will the express what is inside them?</p>
+                    <h1><br>Solution</h1>
+                    <p>They can express theri felling without the the fear of hummilation , as the identity is unknown present themself in reak </p>
+                    <button onclick="downloadApk()">Download APK</button>
                 </div>
             </section>
         </div>
@@ -36,6 +36,22 @@
         document.getElementById("yes-btn").addEventListener("click", function() {
 			window.location.href = "yes.html";
 		});
+        function downloadApk() {
+    // Replace 'path/to/your/apk/file.apk' with the actual path to your APK file
+    var apkUrl = 'path/to/your/apk/file.apk';
+
+    // Create a temporary anchor element
+    var tempAnchor = document.createElement('a');
+
+    // Set the href attribute of the anchor to the APK file URL
+    tempAnchor.href = apkUrl;
+
+    // Set the download attribute to specify the filename to download
+    tempAnchor.setAttribute('download', 'your_app_name.apk');
+
+    // Simulate a click on the anchor element to trigger the download
+    tempAnchor.click();
+}
     </script>
 </body>
 </html>

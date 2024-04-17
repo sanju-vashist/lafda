@@ -196,7 +196,7 @@ footer li{
 .contact-form-container {
     width: 40%;
     height: 40%;
-    background: transparent; /* Ensures the form background is transparent */
+    background: transparent;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -210,7 +210,7 @@ footer li{
     margin-bottom: 10px;
     border: none;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for inputs */
+    background-color: rgba(255, 255, 255, 0.8); 
 }
 
 .contact-form button {
@@ -273,9 +273,4 @@ footer li{
         margin-bottom: 20px;
     }
 }
-
-
-/* nav resopnsive */
-
-
 

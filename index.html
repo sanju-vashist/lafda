@@ -26,7 +26,7 @@
                 <div class="content">
                     <h1>NO ONE  <br>Know YOU...</h1>
                     <p>Chat with you classmate or colliuge and tell them their reality in real. How they are, without in being in the fear of any troube. We will take care of your privacy </p>
-                    <button>Downlode</button>
+                    <button onclick="downloadApk()">Download APK</button>
                 </div>
             </section>
             <footer id="footer">
@@ -37,5 +37,23 @@
             </footer>
         </div>
     </header>
+    <script>
+        function downloadApk() {
+    // Replace 'path/to/your/apk/file.apk' with the actual path to your APK file
+    var apkUrl = 'path/to/your/apk/file.apk';
+
+    // Create a temporary anchor element
+    var tempAnchor = document.createElement('a');
+
+    // Set the href attribute of the anchor to the APK file URL
+    tempAnchor.href = apkUrl;
+
+    // Set the download attribute to specify the filename to download
+    tempAnchor.setAttribute('download', 'your_app_name.apk');
+
+    // Simulate a click on the anchor element to trigger the download
+    tempAnchor.click();
+}
+    </script>
 </body>
 </html>
