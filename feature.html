@@ -32,21 +32,24 @@
     </header>
     <script>
         function downloadApk() {
-    // Replace 'path/to/your/apk/file.apk' with the actual path to your APK file
-    var apkUrl = 'path/to/your/apk/file.apk';
-
-    // Create a temporary anchor element
-    var tempAnchor = document.createElement('a');
-
-    // Set the href attribute of the anchor to the APK file URL
-    tempAnchor.href = apkUrl;
-
-    // Set the download attribute to specify the filename to download
-    tempAnchor.setAttribute('download', 'your_app_name.apk');
-
-    // Simulate a click on the anchor element to trigger the download
-    tempAnchor.click();
-}
-    </script>
+            var apkUrl = 'lafda.apk';
+        
+            fetch(apkUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    var tempAnchor = document.createElement('a');
+                    var url = window.URL.createObjectURL(blob);
+        
+                    tempAnchor.href = url;
+        
+                    tempAnchor.setAttribute('download', 'lafda.apk');
+        
+                    tempAnchor.click();
+        
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Error downloading APK:', error));
+        }
+        </script>
 </body>
 </html>
