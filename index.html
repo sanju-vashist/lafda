@@ -258,31 +258,47 @@
 
         var apkUrl = './lafda.apk';
 
-       
         function downloadApk() {
-    var apkUrl = 'lafda.apk'; // Change to a valid path if needed
+            // Replace USERNAME and REPOSITORY with your actual GitHub details
+            const apkUrl = 'https://raw.githubusercontent.com/sanju-vashist/lafda/master/lafda.apk';
+            
+            fetch(apkUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const tempAnchor = document.createElement('a');
+                    tempAnchor.href = url;
+                    tempAnchor.download = 'lafda.apk';
+                    document.body.appendChild(tempAnchor);
+                    tempAnchor.click();
+                    tempAnchor.remove();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Error downloading APK:', error));
+        }
 
-    fetch(apkUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.blob();
-        })
-        .then(blob => {
-            var tempAnchor = document.createElement('a');
-            var url = window.URL.createObjectURL(blob);
-
-            tempAnchor.href = url;
-            tempAnchor.setAttribute('download', 'lafda.apk');
-            document.body.appendChild(tempAnchor);
-            tempAnchor.click();
-            tempAnchor.remove();
-
-            window.URL.revokeObjectURL(url);
-        })
-        .catch(error => console.error('Error downloading APK:', error));
-}
+        function downloadApk() {
+            var apkUrl = 'lafda.apk';
+        
+            fetch(apkUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    var tempAnchor = document.createElement('a');
+                    var url = window.URL.createObjectURL(blob);
+        
+                    tempAnchor.href = url;
+        
+                    tempAnchor.setAttribute('download', 'lafda.apk');
+        
+                    tempAnchor.click();
+        
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Error downloading APK:', error));
+        }
     </script>
 </body>
 </html>
