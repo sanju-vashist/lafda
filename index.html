@@ -223,9 +223,6 @@
                 <h2>Ready to Join the Conversation?</h2>
                 <p>Download Lafda now and start chatting anonymously with people around the world</p>
                 <a href="javascript:void(0);" href="lafda.apk" download="lafda.apk" class="download-btn" onclick="downloadApk()">Download Now</a>
-                <a href="lafda.apk" download="lafda.apk"></a>
-
-
             </div>
         </div>
     </div>
@@ -234,70 +231,37 @@
         const words = ['LAFDA', 'CHAT', 'ANONYMOUSLY'];
         const splashContent = document.getElementById('splash-content');
         let currentIndex = 0;
-
+    
         function showWord() {
             if (currentIndex < words.length) {
                 const wordElement = document.createElement('div');
                 wordElement.className = 'splash-word';
                 wordElement.textContent = words[currentIndex];
                 splashContent.appendChild(wordElement);
-
-                // Remove the word element after animation
+    
                 setTimeout(() => {
                     wordElement.remove();
                 }, 1000);
-
+    
                 currentIndex++;
                 if (currentIndex < words.length) {
                     setTimeout(showWord, 1000);
                 }
             }
         }
-
+    
         showWord();
-
-        var apkUrl = './lafda.apk';
-
+    
         function downloadApk() {
-            // Replace USERNAME and REPOSITORY with your actual GitHub details
-            const apkUrl = 'https://raw.githubusercontent.com/sanju-vashist/lafda/master/lafda.apk';
+            // Update this path to match your hosted APK location
+            const apkUrl = '/lafda.apk';
             
-            fetch(apkUrl)
-                .then(response => {
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    return response.blob();
-                })
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const tempAnchor = document.createElement('a');
-                    tempAnchor.href = url;
-                    tempAnchor.download = 'lafda.apk';
-                    document.body.appendChild(tempAnchor);
-                    tempAnchor.click();
-                    tempAnchor.remove();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => console.error('Error downloading APK:', error));
-        }
-
-        function downloadApk() {
-            var apkUrl = 'lafda.apk';
-        
-            fetch(apkUrl)
-                .then(response => response.blob())
-                .then(blob => {
-                    var tempAnchor = document.createElement('a');
-                    var url = window.URL.createObjectURL(blob);
-        
-                    tempAnchor.href = url;
-        
-                    tempAnchor.setAttribute('download', 'lafda.apk');
-        
-                    tempAnchor.click();
-        
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => console.error('Error downloading APK:', error));
+            const link = document.createElement('a');
+            link.href = apkUrl;
+            link.download = 'lafda.apk';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
