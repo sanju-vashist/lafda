@@ -1,269 +1,1174 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lafda - Anonymous Chat App</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <title>Lafda - Anonymous Chat Platform</title>
     <style>
+        :root {
+            --primary-color: #0063f2;
+            --text-color: #020202;
+            --bg-color: #f4f7f9;
+            --white: #ffffff;
+            --gray: #4a4a4a;
+            --light-gray: #b8b8b8;
+            --dark-bg: #1a1a1a;
+            --accent-color: #00d4ff;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
         body {
-            background-color: #121212;
-            color: #ffffff;
-        }
-
-        .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d1f4d 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeOut 1s ease-in-out 3.5s forwards;
-        }
-
-        @keyframes wordFade {
-            0% { opacity: 0; transform: translateY(20px); }
-            20% { opacity: 1; transform: translateY(0); }
-            80% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-20px); }
-        }
-
-        .splash-word {
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: #8B5CF6;
-            text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
-            position: absolute;
-            opacity: 0;
-            animation: wordFade 1s forwards;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            opacity: 0;
-            animation: fadeIn 1s ease-in-out 3.5s forwards;
         }
 
-        header {
-            text-align: center;
-            background: linear-gradient(180deg, rgba(139, 92, 246, 0.1) 0%, rgba(26, 26, 26, 0) 100%);
-            border-radius: 20px;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--white);
+            padding: 20px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
 
         .logo {
-            font-size: 2.5rem;
+            font-size: 24px;
             font-weight: bold;
-            color: #8B5CF6;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+            color: var(--primary-color);
         }
 
-        .hero {
+        nav ul {
+            list-style: none;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
+            gap: 20px;
         }
 
-        .chat-characters {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .character {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(145deg, #9B69F8, #8B5CF6);
-            border-radius: 50%;
-            position: relative;
-            animation: float 3s ease-in-out infinite;
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
-        }
-
-        .character::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 20px;
-            background-color: #6D28D9;
-            border-radius: 10px;
-        }
-
-        .mask {
-            position: absolute;
-            width: 60px;
-            height: 30px;
-            background: linear-gradient(145deg, #5D3AA8, #4C1D95);
-            border-radius: 10px;
-            top: 30px;
-            left: 10px;
-        }
-
-        .download-section {
-            text-align: center;
-            background: linear-gradient(145deg, #1f1f1f, #1a1a1a);
-            border-radius: 20px;
-            padding: 40px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(139, 92, 246, 0.1);
-        }
-
-        .download-btn {
-            display: inline-block;
-            padding: 15px 40px;
-            background: linear-gradient(145deg, #9B69F8, #8B5CF6);
-            color: white;
+        nav ul li a {
             text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        .download-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+        nav ul li a.active,
+        nav ul li a:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
         }
 
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+        .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        p {
-            line-height: 1.6;
-            margin: 20px 0;
-            color: #a0aec0;
+        main {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            font-size: 2.2rem;
+            color: var(--text-color);
+            font-size: 36px;
             margin-bottom: 20px;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(45deg, #ffffff, #e0e0e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-align: center;
         }
 
         h2 {
-            font-size: 1.7rem;
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        p,
+        ul {
+            color: var(--gray);
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--light-gray);
+        }
+
+        /* Overview Page Styles */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .health-details {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .lung-image {
+            position: relative;
+            width: 60%;
+        }
+
+        .lung-image img {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .lung-info {
+            position: absolute;
+            margin-top: 30px;
+            top: 20px;
+            left: 20px;
+            color: var(--text-color);
+        }
+
+        .heart-rate {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .heart-ring {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 50%;
+            font-size: 14px;
+        }
+
+        .vitals {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .vital-item {
+            background-color: var(--white);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .medication {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            margin-top: 20px;
+        }
+
+        .medication-card,
+        .respiratory-card,
+        .scan-Osteoporosis,
+        .scan-cardiology {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .progress-bar {
+            background-color: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar .progress {
+            background-color: var(--primary-color);
+            height: 100%;
+        }
+
+        .percentage {
+            position: absolute;
+            top: 170px;
+            right: 30px;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .consultation-button {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .consultation-button button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 99, 242, 0.3);
+        }
+
+        .consultation-button button:hover {
+            background-color: #004bb7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 99, 242, 0.4);
+        }
+
+        /* HOW TO USE SECTION STYLES */
+        .how-to-use-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .how-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .how-step:hover {
+            transform: translateY(-5px);
+        }
+
+        .how-step:nth-child(even) {
+            flex-direction: row-reverse;
+            background: linear-gradient(135deg, #fff8f0 0%, #ffe8d0 100%);
+        }
+
+        .how-step-content {
+            flex: 1;
+            padding: 0 30px;
+        }
+
+        .how-step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .how-step h3 {
+            color: var(--primary-color);
+            font-size: 24px;
             margin-bottom: 15px;
-            color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .how-step p {
+            color: var(--gray);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .how-image {
+            flex: 1;
+            max-width: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .how-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .how-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Mock image placeholder */
+        .mock-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mock-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .mock-image span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* FAQ SECTION STYLES */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-intro {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+
+        .faq-intro h2 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px 25px;
+            background-color: var(--white);
+            border: none;
+            text-align: left;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background-color: #f8f9ff;
+            color: var(--primary-color);
+        }
+
+        .faq-question.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 20px 25px;
+            background-color: #f8f9ff;
+            color: var(--gray);
+            font-size: 16px;
+            line-height: 1.6;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .faq-answer.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .arrow {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Contact Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            color: var(--text-color);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        button[type="submit"] {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 99, 242, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            background-color: #004bbf;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 99, 242, 0.4);
+        }
+
+        /* Hamburger Menu Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: wrap;
+            }
+
+            .menu-toggle {
+                display: flex;
+                order: 1;
+            }
+
+            .logo {
+                order: 2;
+            }
+
+            .profile {
+                order: 3;
+            }
+
+            nav {
+                flex-basis: 100%;
+                order: 4;
+                display: none;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            main {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 24px;
+            }
+
+            .overview-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .health-details {
+                flex-direction: column;
+            }
+
+            .lung-image {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .vitals {
+                flex-direction: column;
+            }
+
+            .medication {
+                grid-template-columns: 1fr;
+            }
+
+            .how-step {
+                flex-direction: column !important;
+                text-align: center;
+                padding: 20px;
+            }
+
+            .how-step-content {
+                padding: 0;
+                margin-bottom: 20px;
+            }
+
+            .how-image {
+                max-width: 100%;
+            }
+
+            .faq-question {
+                font-size: 16px;
+                padding: 15px 20px;
+            }
+
+            .faq-answer {
+                padding: 15px 20px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="splash-screen">
-        <div id="splash-content"></div>
-    </div>
 
+<body>
     <div class="container">
-        <header>
-            <div class="logo">LAFDA</div>
-            <p>Your Private Space for Anonymous Conversations</p>
+        <header class="header">
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="logo">Lafda</div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#overview" class="active">Overview</a></li>
+                    <li><a href="#how-to-use">How to Use</a></li>
+                    <li><a href="#document">Documentation</a></li>
+                    <li><a href="#contact-us">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="profile">
+                <img src="logo.jpg" alt="Profile">
+            </div>
         </header>
 
-        <div class="hero">
-            <h1>Connect Anonymously,<br>Chat Freely</h1>
-            <p>Experience the freedom of genuine conversations without revealing your identity</p>
-            
-            <div class="chat-characters">
-                <div class="character" style="animation-delay: 0s;">
-                    <div class="mask">HI</div>
+        <main id="overview">
+            <section class="overview-grid">
+                <div class="overview">
+                    <h1>Lafda – Anonymous Chat Made Fun</h1>
+                    <p>Chat. Confess. Connect. Without Revealing Who You Are.</p>
+                    <div class="health-details">
+                        <div class="lung-image">
+                            <img src="anonymous.jpg" alt="Lafda Features">
+                            <div class="lung-info">
+                                <div class="heart-rate">
+                                    <div class="heart-details">
+                                        <p>No Signup Needed</p>
+                                        <p>No Phone, No Email</p>
+                                    </div>
+                                </div>
+                                <div class="appointment-info">
+                                    <p id="day-time"></p>
+                                    <p>Connect with Strangers Instantly</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vitals">
+                            <div class="vital-item">
+                                <p>Secure</p>
+                                <p>Encrypted Messages</p>
+                            </div>
+                            <div class="vital-item">
+                                <p>Auto Matchmaking</p>
+                                <p>Chat with Random Users</p>
+                            </div>
+                            <div class="vital-item">
+                                <p>No Identity</p>
+                                <p>Stay Completely Anonymous</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="character" style="animation-delay: 0.5s;">
-                    <div class="mask">HELLO</div>
+
+                <div class="medication">
+                    <div class="medication-card">
+                        <h2>Random Chats</h2>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 100%;"></div>
+                        </div>
+                        <p class="percentage">Match Found Instantly</p>
+                    </div>
+                    <div class="respiratory-card">
+                        <h2>Private Rooms</h2>
+                        <p>One-on-One Talk</p>
+                        <small>No Data Stored</small>
+                    </div>
+                    <div class="scan-cardiology">
+                        <h2>Message Expiry</h2>
+                        <p>Auto-delete Chats</p>
+                        <small>Zero Trace</small>
+                    </div>
+                    <div class="scan-Osteoporosis">
+                        <h2>Dark Mode Ready</h2>
+                        <p>Cool & Anonymous</p>
+                        <small>Always in Stealth</small>
+                    </div>
                 </div>
-                <div class="character" style="animation-delay: 1s;">
-                    <div class="mask">HI</div>
+            </section>
+            <div class="consultation-button">
+                <a href="https://github.com/sanju-vashist/lafda/raw/master/lafda.apk" class="download-btn" download>
+                    <button>Try Lafda for free</button>
+                </a>
+            </div>
+        </main>
+
+        <!-- Enhanced How to Use Section -->
+        <main id="how-to-use" style="display: none;">
+            <div class="how-to-use-container">
+                <h1>How to Use Lafda - Your Anonymous Chat Journey</h1>
+                <p style="text-align: center; font-size: 20px; margin-bottom: 40px; color: var(--gray);">
+                    Get started with anonymous chatting in just 5 simple steps. No registration, no personal info, just
+                    pure conversation.
+                </p>
+
+                <div class="how-step">
+                    <div class="how-step-content">
+                        <div class="how-step-number">1</div>
+                        <h3>Visit Lafda Website</h3>
+                        <p>Open your web browser and navigate to Lafda. No app downloads required! Our platform works
+                            seamlessly on all devices - desktop, mobile, and tablet. The clean, minimalist interface
+                            ensures you can focus on what matters: genuine conversations.</p>
+                    </div>
+                    <div class="how-image">
+                        <div class="mock-image">
+                            <span>🌐 Website Homepage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-step">
+                    <div class="how-step-content">
+                        <div class="how-step-number">2</div>
+                        <h3>Click "Start Chat" - No Registration!</h3>
+                        <p>Simply click the "Start Chat" button and you're in! No email verification, no phone numbers,
+                            no personal details. We believe in instant connection without the hassle. Your privacy is
+                            protected from the very first click.</p>
+                    </div>
+                    <div class="how-image">
+                        <div class="mock-image">
+                            <span>🚀 Start Chat Button</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-step">
+                    <div class="how-step-content">
+                        <div class="how-step-number">3</div>
+                        <h3>Get Matched Instantly</h3>
+                        <p>Our smart matching algorithm connects you with another anonymous user in seconds. No waiting,
+                            no profiles to browse through. Just real-time connection with someone who's also looking for
+                            genuine conversation. Every match is a new adventure!</p>
+                    </div>
+                    <div class="how-image">
+                        <div class="mock-image">
+                            <span>🎯 Auto-Matching System</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-step">
+                    <div class="how-step-content">
+                        <div class="how-step-number">4</div>
+                        <h3>Chat Freely & Anonymously</h3>
+                        <p>Express yourself without filters! Share thoughts, ask questions, tell stories, or just have
+                            fun conversations. Both users remain completely anonymous - no usernames, no profile
+                            pictures, just pure conversation. Feel free to be your authentic self.</p>
+                    </div>
+                    <div class="how-image">
+                        <div class="mock-image">
+                            <span>💬 Anonymous Chat Interface</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="how-step">
+                    <div class="how-step-content">
+                        <div class="how-step-number">5</div>
+                        <h3>Leave or Start New Chat</h3>
+                        <p>End the conversation anytime with a simple click. All messages are automatically deleted - no
+                            trace left behind. Want to talk to someone new? Hit "New Chat" and get matched with a
+                            different person instantly. Every conversation is a fresh start!</p>
+                    </div>
+                    <div class="how-image">
+                        <div class="mock-image">
+                            <span>🔄 New Chat & Exit Options</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="consultation-button">
+                    <a href="https://github.com/sanju-vashist/lafda/raw/master/lafda.apk" class="download-btn" download>
+                        <button>Try Lafda for free</button>
+                    </a>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Enhanced Documentation Section -->
+        <main id="document" style="display: none;">
+            <h1>Documentation</h1>
+
+            <section id="app-details">
+                <h2>About Lafda</h2>
+                <p>Lafda is a revolutionary anonymous chat platform that strips away the noise of social media to bring
+                    you back to pure, authentic conversations. No profiles, no followers, no likes - just real people
+                    having real talks. Whether you want to share secrets, seek advice, make friends, or simply have fun
+                    conversations, Lafda provides a safe space for genuine human connection.</p>
+
+                <p>Our platform uses advanced encryption to ensure your conversations remain private and secure. With
+                    auto-matching technology, you're connected with like-minded individuals instantly, creating
+                    spontaneous connections that feel natural and unforced.</p>
+            </section>
+
+            <section id="creators">
+                <h2>Meet the Creators</h2>
+                <p>Lafda was born from a simple idea: what if we could connect with people based on thoughts and ideas
+                    rather than appearances and social status? Our team of passionate developers and designers came
+                    together to create a platform that prioritizes meaningful conversation over superficial connections.
+                </p>
+                <ul>
+                    <li><strong>Team Leader:</strong> Sanju - Visionary behind the anonymous chat concept</li>
+                    <li><strong>Lead Developer:</strong> [Team Member 1] - Backend architecture and security</li>
+                    <li><strong>Frontend Developer:</strong> [Team Member 2] - User interface and experience</li>
+                    <li><strong>Security Expert:</strong> [Team Member 3] - Encryption and privacy protection</li>
+                    <li><strong>UX Designer:</strong> [Team Member 4] - User experience and interface design</li>
+                </ul>
+            </section>
+
+            <section id="motive">
+                <h2>Our Mission & Vision</h2>
+                <p>In today's digital world, we're more connected yet more isolated than ever. Social media has created
+                    a culture of comparison, validation-seeking, and carefully curated personas. Lafda breaks through
+                    this noise by removing all the superficial elements that prevent genuine connection.</p>
+
+                <p>We believe that some of the most meaningful conversations happen when people can be completely honest
+                    without judgment. Our platform creates a safe space where you can explore ideas, share experiences,
+                    and connect with others on a deeper level - all while maintaining complete anonymity.</p>
+
+                <p><strong>Our Vision:</strong> To become the world's most trusted platform for anonymous, meaningful
+                    conversations that foster genuine human connection and understanding.</p>
+            </section>
+
+            <section id="features">
+                <h2>Key Features</h2>
+                <ul>
+                    <li><strong>Zero Registration:</strong> No emails, phone numbers, or personal information required
+                    </li>
+                    <li><strong>Instant Matching:</strong> Connect with strangers in seconds using our smart algorithm
+                    </li>
+                    <li><strong>Complete Anonymity:</strong> No usernames, profile pictures, or identifiable information
+                    </li>
+                    <li><strong>Auto-Delete Messages:</strong> All conversations are automatically deleted when you
+                        leave</li>
+                    <li><strong>Cross-Platform:</strong> Works perfectly on desktop, mobile, and tablet browsers</li>
+                    <li><strong>End-to-End Encryption:</strong> Your messages are secured with military-grade encryption
+                    </li>
+                    <li><strong>Report System:</strong> Easy reporting for inappropriate behavior</li>
+                    <li><strong>Dark Mode Support:</strong> Choose between light and dark themes</li>
+                    <li><strong>Multiple Languages:</strong> Chat in your preferred language</li>
+                    <li><strong>Emoji Support:</strong> Express yourself with a wide range of emojis</li>
+                </ul>
+            </section>
+
+            <!-- Enhanced FAQ Section -->
+            <section id="faq">
+                <div class="faq-container">
+                    <div class="faq-intro">
+                        <h2>Frequently Asked Questions</h2>
+                        <p>Everything you need to know about using Lafda safely and effectively</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Do I need to register or create an account? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Absolutely not! Lafda is completely registration-free. No email, phone number, username, or
+                            any personal information is required. Simply visit our website and click "Start Chat" to
+                            begin your anonymous conversation journey immediately.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Are my conversations really private and secure? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Yes! All conversations are encrypted end-to-end, meaning only you and the person you're
+                            chatting with can read the messages. We don't store any chat history, and all messages are
+                            automatically deleted when you leave the conversation. Your privacy is our top priority.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How does the matching system work? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Our smart matching algorithm connects you with another anonymous user who is also looking
+                            for a conversation. The system considers factors like timing, language preferences, and
+                            connection quality to ensure the best possible chat experience. Matches typically happen
+                            within 2-5 seconds.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Can I report inappropriate behavior? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Yes! We have a robust reporting system. If someone is being inappropriate, harassing, or
+                            violating our community guidelines, you can report them instantly. Our moderation team
+                            reviews reports quickly and takes appropriate action to keep the platform safe for everyone.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Is Lafda completely free to use? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Yes! Lafda is 100% free with no hidden charges, premium features, or advertisements. We
+                            believe that genuine human connection shouldn't be monetized. Our platform is funded by
+                            passionate supporters who believe in our mission of anonymous, meaningful conversations.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Can I use Lafda on my mobile device? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Absolutely! Lafda is fully responsive and works perfectly on all devices - smartphones,
+                            tablets, laptops, and desktop computers. No app download required - just open your browser
+                            and start chatting. The mobile experience is optimized for touch interaction and easy
+                            typing.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            What happens if I accidentally close the browser? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            If you accidentally close your browser or lose connection, the conversation will end
+                            automatically. All messages are deleted immediately, and you cannot reconnect to the same
+                            conversation. This is by design to protect your privacy. Simply start a new chat to be
+                            matched with someone new.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Are there any rules or guidelines I should follow? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Yes! We have simple community guidelines: Be respectful, no harassment, no spam, no sharing
+                            of personal information, and no illegal content. Remember, the person you're talking to is a
+                            real human being. Treat them with kindness and respect. Violation of these guidelines may
+                            result in temporary or permanent bans.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Can I save or screenshot conversations? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            While we can't technically prevent screenshots, we strongly discourage saving or sharing
+                            conversations without consent. Remember that the other person trusted you with their
+                            thoughts believing the conversation was private. Please respect their privacy and the
+                            anonymous nature of our platform.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            How long can a conversation last? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Conversations can last as long as both participants want to continue chatting. There's no
+                            time limit! However, if there's no activity for 10 minutes, the chat will automatically end
+                            to free up the connection for other users. You can always start a new chat whenever you
+                            want.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            What if I encounter technical issues? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            If you experience any technical problems, try refreshing your browser first. If the issue
+                            persists, you can contact our support team through the Contact Us page. We're constantly
+                            working to improve the platform and fix any bugs that might arise.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Is there a limit to how many chats I can have? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            No limits! You can have as many conversations as you want. Start a new chat whenever you
+                            feel like talking to someone new. Each conversation is completely independent, and you'll be
+                            matched with different people each time.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            Can I block or avoid certain users? <span class="arrow">▼</span>
+                        </button>
+                        <div class="faq-answer">
+                            Since everyone is anonymous, traditional blocking isn't possible. However, you can simply
+                            end any conversation you don't want to continue. If someone is being inappropriate, use the
+                            report function. Our matching system is designed to connect you with different people each
+                            time, so you're unlikely to encounter the same person twice.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Contact Section -->
+        <main id="contact-us" style="display: none;">
+            <h1>Contact Us</h1>
+            <p style="text-align: center; margin-bottom: 40px;">Got questions, suggestions, or want to collaborate? We'd
+                love to hear from you! Your feedback helps us make Lafda better for everyone.</p>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+                <div>
+                    <h2>Get in Touch</h2>
+                    <p>Whether you have technical issues, feature suggestions, or just want to share your Lafda
+                        experience, we're here to listen. Our team is passionate about creating the best anonymous chat
+                        experience possible.</p>
+
+                    <div style="margin-top: 30px;">
+                        <h3>Quick Contact Options:</h3>
+                        <ul>
+                            <li><strong>Technical Support:</strong> For bugs and technical issues</li>
+                            <li><strong>Feature Requests:</strong> Share your ideas for new features</li>
+                            <li><strong>Community Guidelines:</strong> Report violations or ask questions</li>
+                            <li><strong>Partnership Inquiries:</strong> Collaboration opportunities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Why Contact Us?</h2>
+                    <p>Your input drives our development. Every message helps us understand what our users need and
+                        want. We read every email and consider every suggestion seriously.</p>
+
+                    <div style="margin-top: 30px;">
+                        <h3>Response Time:</h3>
+                        <ul>
+                            <li>Technical issues: Within 24 hours</li>
+                            <li>General inquiries: Within 48 hours</li>
+                            <li>Feature suggestions: Within 72 hours</li>
+                            <li>Partnership inquiries: Within 1 week</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="download-section">
-                <h2>Ready to Join the Conversation?</h2>
-                <p>Download Lafda now and start chatting anonymously with people around the world</p>
-                <!-- <a href="javascript:void(0);" href="lafda.apk" download="lafda.apk" class="download-btn" onclick="downloadApk()">Download Now</a> -->
-                <a href="https://github.com/sanju-vashist/lafda/raw/master/lafda.apk" class="download-btn">Download Now</a>
-            </div>
-        </div>
+            <form action="#" method="post" style="max-width: 600px; margin: 0 auto;">
+                <label for="name">Your Name (Optional):</label>
+                <input type="text" id="name" name="name" placeholder="Enter a nickname or leave blank">
+
+                <label for="email">Your Email (Optional - for responses):</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email if you want a response">
+
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Lafda. No names, no numbers, just lafda. | Building genuine connections through anonymous
+                conversations.</p>
+        </footer>
     </div>
 
     <script>
-        const words = ['LAFDA', 'CHAT', 'ANONYMOUSLY'];
-        const splashContent = document.getElementById('splash-content');
-        let currentIndex = 0;
-    
-        function showWord() {
-            if (currentIndex < words.length) {
-                const wordElement = document.createElement('div');
-                wordElement.className = 'splash-word';
-                wordElement.textContent = words[currentIndex];
-                splashContent.appendChild(wordElement);
-    
-                setTimeout(() => {
-                    wordElement.remove();
-                }, 1000);
-    
-                currentIndex++;
-                if (currentIndex < words.length) {
-                    setTimeout(showWord, 1000);
+        document.addEventListener('DOMContentLoaded', function () {
+            const navLinks = document.querySelectorAll('nav ul li a');
+            const mainSections = document.querySelectorAll('main');
+            const menuToggle = document.getElementById('menu-toggle');
+            const nav = document.getElementById('nav');
+
+            // Hamburger menu toggle
+            menuToggle.addEventListener('click', function () {
+                nav.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    showSection(targetId);
+                });
+            });
+
+            // Set current date and time for the appointment info
+            function updateDateTime() {
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                const timeElement = document.getElementById('day-time');
+                if (timeElement) {
+                    timeElement.textContent = now.toLocaleDateString('en-US', options);
                 }
             }
+
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update every minute
+        });
+
+        function showSection(sectionId) {
+            const mainSections = document.querySelectorAll('main');
+            mainSections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+
+            const navLinks = document.querySelectorAll('nav ul li a');
+            navLinks.forEach(navLink => {
+                navLink.classList.remove('active');
+            });
+            document.querySelector(`nav ul li a[href="#${sectionId}"]`).classList.add('active');
         }
-    
-        showWord();
-    
-        function downloadApk() {
-            // Update this path to match your hosted APK location
-            const apkUrl = '/lafda.apk';
-            
-            const link = document.createElement('a');
-            link.href = apkUrl;
-            link.download = 'lafda.apk';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+
+        function toggleFaq(button) {
+            const answer = button.nextElementSibling;
+            const arrow = button.querySelector('.arrow');
+
+            // Close all other FAQ items
+            document.querySelectorAll('.faq-question').forEach(q => {
+                if (q !== button) {
+                    q.classList.remove('active');
+                    q.nextElementSibling.classList.remove('active');
+                    q.querySelector('.arrow').classList.remove('rotated');
+                }
+            });
+
+            // Toggle current FAQ item
+            if (answer.classList.contains('active')) {
+                answer.classList.remove('active');
+                button.classList.remove('active');
+                arrow.classList.remove('rotated');
+            } else {
+                answer.classList.add('active');
+                button.classList.add('active');
+                arrow.classList.add('rotated');
+            }
         }
     </script>
 </body>
+
 </html>
